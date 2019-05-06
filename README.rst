@@ -1,6 +1,9 @@
 **Solving "n-puzzle" game using Reinforcement learning algorithms**
 
-Installation: ``pip install gym_puzzle``
+Installation
+------------
+
+It can be installed on Linux and Mac with ``pip install gym_puzzle``.
 
 Example Use
 -----------
@@ -8,20 +11,23 @@ Example Use
 +------------------------------------------------+
 | **Train agent and run it in sem.ipynb**        |
 +------------------------------------------------+
-|Configure these params and run                  |
-|.. code-block:: python                          |
+|                                                |
+|  Configure these params and run                |
 |                                                |
 |  board_sizes = (3, 3)                          |
-|  diff = 100                                    |
-|  st = 1000                                     |
+|                                                |
+|  diff = 100 # difficulty                       |
+|                                                |
+|  st = 1000 # max_steps                         |
+|                                                |
 |  num_of_iter = 100                             |
 +------------------------------------------------+
 
 **Tune hyperparameters in test_env.py**
 
-Another ways of usage:
+Another way of usage:
+-----------
 
 python ./train.py -f ./puzzle-ppo.yaml
 
-python ./rollout.py ~/ray/checkpoint_dir/checkpoint-0 --run PPO
-    --env puzzle-v0 --steps 1000000 --out rollouts.pkl
+python ./rollout.py ~/ray/checkpoint_dir/checkpoint-0 --run PPO --env puzzle-v0 --steps 1000000 --out rollouts.pkl
