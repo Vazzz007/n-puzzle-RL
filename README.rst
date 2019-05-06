@@ -1,24 +1,27 @@
-# n-puzzle-with-Reinforcement-learning
-Solving "n-puzzle" game using Reinforcement learning algorithms
+**Solving "n-puzzle" game using Reinforcement learning algorithms**
 
 Installation: ``pip install gym_puzzle``
 
 Example Use
 -----------
 
-+------------------------------------------------+----------------------------------------------------+
-| **Basic Python**                               | **Distributed with Ray**                           |
-+------------------------------------------------+----------------------------------------------------+
-|.. code-block:: python                          |.. code-block:: python                              |
-|                                                |                                                    |
-|  # Execute f serially.                         |  # Execute f in parallel.                          |
-|                                                |                                                    |
-|                                                |  @ray.remote                                       |
-|  def f():                                      |  def f():                                          |
-|      time.sleep(1)                             |      time.sleep(1)                                 |
-|      return 1                                  |      return 1                                      |
-|                                                |                                                    |
-|                                                |                                                    |
-|                                                |  ray.init()                                        |
-|  results = [f() for i in range(4)]             |  results = ray.get([f.remote() for i in range(4)]) |
-+------------------------------------------------+----------------------------------------------------+
++------------------------------------------------+
+| **Train agent and run it in sem.ipynb**        |
++------------------------------------------------+
+|Configure these params and run                  |
+|.. code-block:: python                          |
+|                                                |
+|  board_sizes = (3, 3)                          |
+|  diff = 100                                    |
+|  st = 1000                                     |
+|  num_of_iter = 100                             |
++------------------------------------------------+
+
+**Tune hyperparameters in test_env.py**
+
+Another ways of usage:
+
+python ./train.py -f ./puzzle-ppo.yaml
+
+python ./rollout.py ~/ray/checkpoint_dir/checkpoint-0 --run PPO
+    --env puzzle-v0 --steps 1000000 --out rollouts.pkl
