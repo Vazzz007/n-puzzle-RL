@@ -11,11 +11,13 @@ from gym.spaces.space import Space
 class PuzzleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, config = {}):
+    def __init__(self, config = None):
 
         self.done = False
         self.prev_reward = 0.0
         self.steps_count = 0
+        if config == None:
+            config = {"max_steps": None, "board_sizes": None, "difficulty": None}
         self.max_steps = config["max_steps"] if config["max_steps"] is not None else 1000000
         self.add = [0, 0]
         self.nrow, self.ncol = config["board_sizes"] if config["board_sizes"] is not None else (2, 3)
