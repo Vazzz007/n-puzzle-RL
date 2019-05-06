@@ -128,38 +128,6 @@ class PuzzleEnv(gym.Env):
             self.move(step)
             last_inverse = inverse(step)
 
-    def move(self, direction):
-
-        x, y = self.blank_position 
-
-        if direction == 1:
-            # moving right
-            if direction in self.legal_moves():
-                self.board[x][y] = self.board[x][y + 1]
-                self.board[x][y + 1] = 0
-                self.blank_position[1] += 1
-
-        elif direction == 2:
-            # moving up
-            if direction in self.legal_moves():
-                self.board[x][y] = self.board[x - 1][y]
-                self.board[x - 1][y] = 0
-                self.blank_position[0] -= 1
-
-        elif direction == 3:
-            # moving left
-            if direction in self.legal_moves():
-                self.board[x][y] = self.board[x][y - 1]
-                self.board[x][y - 1] = 0
-                self.blank_position[1] -= 1
-
-        elif direction == 0:
-            # moving down
-            if direction in self.legal_moves():
-                self.board[x][y] = self.board[x + 1][y]
-                self.board[x + 1][y] = 0
-                self.blank_position[0] += 1
-
     def get_board(self):
         return self.board
 
