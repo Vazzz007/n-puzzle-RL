@@ -13,7 +13,7 @@ The agent may only choose to go up, down, left, or right (2, 0, 3, 1). If the wa
 The observation space is n*m matrix of integers from 0 (blank tile) to nm - 1.
 
 ### Reward
-A reward of 100 is given when the agent reaches the goal. For every step, the agent recieves a reward of (current_manhattan_heuristic - previous_manhattan_heuristic), where manhattan_heuristic is the sum of distances between current positions of tiles and positions of goal state.
+A reward of 100 is given when the agent reaches the goal. For every step, the agent recieves a reward of (current_l1_norm - previous_l1_norm), where l1_norm is the sum of distances between current positions of tiles and positions of goal state.
 
 ### End condition
 The board is reset when the agent reaches the goal or number of steps >= max_steps. 
