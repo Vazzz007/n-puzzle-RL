@@ -89,8 +89,7 @@ class PuzzleEnv(gym.Env):
         self.steps_count += 1
         reward = 0.0
 
-        next_dist = self.manhattan_heuristic()
-        next_fits = self.n_wrong_heuristic()
+        next_dist = self.l1_norm()
 
         # if (self.cur_dist >= next_dist):
         #     reward = 100*(1/self.steps_count)*(self.cur_dist - next_dist)
@@ -98,9 +97,8 @@ class PuzzleEnv(gym.Env):
         #     reward = 0.001*(self.steps_count)*(self.cur_dist - next_dist)
 
         reward = 1*(self.cur_dist - next_dist)
-                #- 0.01*self.steps_count #+ 10*(next_fits - self.cur_fits)
+                #- 0.01*self.steps_count
         self.cur_dist = next_dist
-        self.cur_fits = next_fits
 
         if (solve == True):
             self.done = True
@@ -116,6 +114,38 @@ class PuzzleEnv(gym.Env):
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
+    
+    def move(self, direction):
+
+        x, y = self.blank_position 
+
+        if direction == 1:
+            # moving right
+            if direction in self.legal_moves():
+                self.board[x][y] = self.board[x][y + 1]
+                self.board[x][y + 1] = 0
+                self.blank_position[1] += 1
+
+        elif direction == 2:
+            # moving up
+            if direction in self.legal_moves():
+                self.board[x][y] = self.board[x - 1][y]
+                self.board[x - 1][y] = 0
+                self.blank_position[0] -= 1
+
+        elif direction == 3:
+            # moving left
+            if direction in self.legal_moves():
+                self.board[x][y] = self.board[x][y - 1]
+                self.board[x][y - 1] = 0
+                self.blank_position[1] -= 1
+
+        elif direction == 0:
+            # moving down
+            if direction in self.legal_moves():
+                self.board[x][y] = self.board[x + 1][y]
+                self.board[x + 1][y] = 0
+                self.blank_position[0] += 1
 
     def scramble(self):
 
@@ -144,9 +174,8 @@ class PuzzleEnv(gym.Env):
 
         self.prev_reward = 0.0
         self.steps_count = 0
-        self.cur_fits = self.n_wrong_heuristic()
         self.done = False
-        self.cur_dist = self.manhattan_heuristic()
+        self.cur_dist = self.l1_norm()
 
         return self.board.flatten()
 
@@ -175,21 +204,9 @@ class PuzzleEnv(gym.Env):
         a = np.array([x + 1 for x in np.arange(self.board_size)]).astype(np.int32).reshape(self.nrow, self.ncol)
         a[self.nrow - 1, self.ncol - 1] = 0
 
-        return a
-
-    def n_wrong_heuristic(self):
+        return a 
     
-        state = self.get_board()
-        indices = np.array([np.argwhere(state == i)[0] for i in range(1, self.board_size)])
-        correct_indices = np.array([[i, j] for i in range(self.nrow) for j in range(self.ncol)])[:-1]
-        n_wrong = 0
-        for i,pair in enumerate(indices):
-            if (pair != correct_indices[i]).any():
-                n_wrong += 1
-    
-        return n_wrong  
-    
-    def manhattan_heuristic(self):
+    def l1_norm(self):
 
         state = self.get_board()
         indices = np.array([np.argwhere(state == i)[0] for i in range(1,self.board_size)])
