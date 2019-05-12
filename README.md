@@ -20,10 +20,17 @@ The board is reset when the agent reaches the goal or number of steps >= max_ste
 
 ## Installation
 
+To install with additional packages(ray, tensorflow) use
 ```bash
 cd n-puzzle-RL
 python setup.py install
 ```
+Or if you want to install only environment:
+```bash
+cd n-puzzle-RL
+python setup_env.py install
+```
+
 
 # Example Use
 
